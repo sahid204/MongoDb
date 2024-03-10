@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+            background-color: rgba(198, 148, 169, 0.644);
+        }
+        @media screen and (max-width: 800px) {
+            .search{
+                display: none;
+            }
+            .headi{
+                font-size: small;
+                display: none;
+            }
+            .navmain{
+                font-size: small;
+                font-weight: bold;
+            }
+           
+          }
+          @media screen and (max-width: 1000px){
+            .headi{
+                font-size: small;
+                font-weight: 300;
+            }
+            .search input{
+                display: none;
+            }
+
+          }
+        nav{
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            background-color: cadetblue;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 50px;
+            border-radius: 14px;
+        }
+         li{
+            list-style: none;
+            font-weight: 800;
+            font-size: larger;
+            
+        }
+        .navmain{
+            padding: 10px;
+            margin-left: 10px;
+            display: flex;
+            gap: 140px;
+        }
+        .btn{
+            width: 84px;
+            height: 25px;
+            border-radius: 5px;
+            background-color: rgba(239, 182, 211, 0.937);
+            cursor:pointer;
+            
+        }
+        .In{
+            height: 22px;
+            border-radius: 5px;
+            text-align: center;
+        
+
+
+        }
+        #userForm{
+            
+            padding: 10px;
+            margin: 15px;
+            text-align: center;
+            
+        }
+        .inb{
+            margin: 15px;
+            padding: 15px;
+        }
+        .la{
+            font-size: x-large;
+            font-weight: 500;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding-left: 5px;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+        .inp{
+            width: 250px;
+            height: 30px;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .butt{
+            width: 150px;
+            height: 35px;
+            text-align: center;
+            background-color: aqua;
+            border-radius: 10px;
+            margin-left: 62px;
+            cursor: pointer;
+        }
+      
+    </style>
+</head>
+<body>
+    <nav>
+    <li class="headi">TODO LIST</li>
+
+<div class="navmain">
+    <li>Home</li>
+    <li>About</li>
+    <li>Contact</li>
+    <li class="search">
+        <input class="In" type="text" name="" id="" placeholder="Search">
+        <button class="btn">Search</button>
+    </li>
+</div>
+</nav>
+
+    <form id="userForm">
+        <div class="inb">
+        <label class="la" for="name">Name:</label>
+        <input class="inp" type="text" id="name" name="name" placeholder="Enter your Name"><br>
+    </div>
+    <div class="inb">
+        <label class="la" for="email">Email:</label>
+        <input class="inp" type="email" id="email" name="email" placeholder="Enter Your Email"><br>
+    </div>
+    <div class="inb">
+        <label class="la" for="task">Task:</label>
+        <input class="inp" type="task" id="task" name="task" placeholder="Enter Task"><br>
+    </div>
+    <div class="inb">
+        <label class="la" for="isDone">Done:</label>
+            <input class="inp" type="checkbox" id="isDone" name="isDone"><br>
+        
+     <div class="inb" >
+        <button class="butt">Submit</button>
+     </div>
+
+        
+    </form>
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+    <script>
+        document.getElementById("userForm").addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission behavior
+        
+            const formData = new FormData(this);
+            const plainFormData = Object.fromEntries(formData);
+
+            // Convert the value of isDone to boolean
+            plainFormData.isDone = !!formData.get('isDone');
+        
+            fetch('/users', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(plainFormData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                alert('User saved successfully!');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while saving the user.');
+            });
+        });
+    </script>
+    
+</body>
+</html>
